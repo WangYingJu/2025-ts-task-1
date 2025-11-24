@@ -7,7 +7,7 @@ export const plantName: string = "琴葉榕（Fiddle Leaf Fig）";
 export const isAvailable: boolean = true;
 export const tags: string[] = ["大型植栽", "室內明亮散射光"];
 export const plant: { id: number, name: string, price: number } = { id: 101, name: "琴葉榕", price: 2500 };
-export const cart: {sku: string, name: string, qty: number, price: number, potColor?: string}[] = [
+export const cart: { sku: string, name: string, qty: number, price: number, potColor?: string }[] = [
   { sku: "PLANT-1001", name: "虎尾蘭", qty: 2, price: 480 },
   { sku: "PLANT-2001", name: "龜背芋", qty: 1, price: 1200, potColor: "白" },
 ];
@@ -31,7 +31,7 @@ export type BasicPlant = { id: number, name: string, price: number };
 export type StockInfo = { sku: string, quantity: number };
 export type OnShelfPlant = BasicPlant & StockInfo
 
-export const snakePlant : OnShelfPlant = {
+export const snakePlant: OnShelfPlant = {
   id: 2,
   name: "虎尾蘭",
   price: 480,
@@ -47,7 +47,7 @@ export interface Price { price: number, currency: 'TWD' | 'USD' }
 export interface Shippable { weightKg: number, shipFrom: string }
 export interface PlantItem extends Price, Shippable { id: number, name: string }
 
-export const fiddleLeafFig : PlantItem = {
+export const fiddleLeafFig: PlantItem = {
   id: 101,
   name: "琴葉榕",
   price: 2500,
@@ -66,7 +66,7 @@ export type CalcTotalFn = (items: CartItem[], coupon?: Coupon) => number;
 
 export const calcTotal: CalcTotalFn = (items, coupon) => {
   const subtotal = items.reduce((sum, it) => sum + it.price * it.qty, 0);
-  if (!coupon) return subtotal; 
+  if (!coupon) return subtotal;
   if (coupon.type === "percent") return Math.max(0, Math.round(subtotal * (1 - coupon.amount / 100)));
   return Math.max(0, subtotal - coupon.amount);
 };
@@ -78,11 +78,11 @@ export const calcTotal: CalcTotalFn = (items, coupon) => {
 // 目標：理解泛型定義與應用。
 import axios from 'axios'; /* TODO */
 import type { AxiosResponse } from 'axios';
-export type PlantDTO = { 
-  id: number; 
-  title: string; 
-  price: number; 
-  category: string; 
+export type PlantDTO = {
+  id: number;
+  title: string;
+  price: number;
+  category: string;
 };
 
 export const fetchPlants = async (): Promise<AxiosResponse<PlantDTO>> => {
@@ -168,7 +168,7 @@ export type CreateProduct = Omit<Product, 'id'>
 3️⃣ 定義 type UpdateProduct
 由 Product 衍生，id, title 必須有，其餘皆可選（使用 Partial 與 Omit）
 */
-export type UpdateProduct = {id: string, title: string} & Partial<Omit<Product, 'id' | 'title'>>
+export type UpdateProduct = { id: string, title: string } & Partial<Omit<Product, 'id' | 'title'>>
 
 /*
 4️⃣ 實作函式 submitProduct(type, product)
@@ -181,7 +181,7 @@ create → "新增商品成功：${product.title}"
 update → "更新商品成功：${product.id}"
 */
 export const submitProduct = (type: "create" | "update", product: CreateProduct | UpdateProduct): string => {
-  if(type === "create") {
+  if (type === "create") {
     return `新增商品成功：${(product as CreateProduct).title}`;
   }
   return `更新商品成功：${(product as UpdateProduct).id}`;
